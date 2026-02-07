@@ -1,0 +1,30 @@
+{
+    "sourceFile": "app/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1770302934976,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1770303863752,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,11 +1,14 @@\n-from . import db\r\n+from .extensions import db\r\n+from datetime import datetime\r\n \r\n class Reservation(db.Model):\r\n+    __tablename__ = \"reservations\"\r\n+\r\n     id = db.Column(db.Integer, primary_key=True)\r\n     full_name = db.Column(db.String(100), nullable=False)\r\n-    email = db.Column(db.String(120), nullable=False)\r\n-    date = db.Column(db.String(20), nullable=False)\r\n-    guests = db.Column(db.Integer, nullable=False)\r\n-\r\n-    def __repr__(self):\r\n-        return f\"<Reservation {self.full_name}>\"\r\n+    phone_number = db.Column(db.String(20), nullable=False)\r\n+    email = db.Column(db.String(100), nullable=False)\r\n+    date = db.Column(db.Date, nullable=False)\r\n+    time = db.Column(db.Time, nullable=False)\r\n+    reservation_count = db.Column(db.String(20), nullable=True)\r\n+    created_at = db.Column(db.DateTime, default=datetime.utcnow)\r\n"
+                },
+                {
+                    "date": 1770303871155,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,14 +1,11 @@\n-from .extensions import db\r\n-from datetime import datetime\r\n+from . import db\r\n \r\n class Reservation(db.Model):\r\n-    __tablename__ = \"reservations\"\r\n-\r\n     id = db.Column(db.Integer, primary_key=True)\r\n     full_name = db.Column(db.String(100), nullable=False)\r\n-    phone_number = db.Column(db.String(20), nullable=False)\r\n-    email = db.Column(db.String(100), nullable=False)\r\n-    date = db.Column(db.Date, nullable=False)\r\n-    time = db.Column(db.Time, nullable=False)\r\n-    reservation_count = db.Column(db.String(20), nullable=True)\r\n-    created_at = db.Column(db.DateTime, default=datetime.utcnow)\r\n+    email = db.Column(db.String(120), nullable=False)\r\n+    date = db.Column(db.String(20), nullable=False)\r\n+    guests = db.Column(db.Integer, nullable=False)\r\n+\r\n+    def __repr__(self):\r\n+        return f\"<Reservation {self.full_name}>\"\r\n"
+                },
+                {
+                    "date": 1770303888732,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,11 +1,11 @@\n from . import db\r\n+from datetime import datetime\r\n \r\n class Reservation(db.Model):\r\n     id = db.Column(db.Integer, primary_key=True)\r\n     full_name = db.Column(db.String(100), nullable=False)\r\n+    phone_number = db.Column(db.String(20), nullable=False)  # <-- add this\r\n     email = db.Column(db.String(120), nullable=False)\r\n-    date = db.Column(db.String(20), nullable=False)\r\n-    guests = db.Column(db.Integer, nullable=False)\r\n-\r\n-    def __repr__(self):\r\n-        return f\"<Reservation {self.full_name}>\"\r\n+    date = db.Column(db.Date, nullable=False)\r\n+    time = db.Column(db.Time, nullable=False)\r\n+    created_at = db.Column(db.DateTime, default=datetime.utcnow)\r\n"
+                }
+            ],
+            "date": 1770302934976,
+            "name": "Commit-0",
+            "content": "from . import db\r\n\r\nclass Reservation(db.Model):\r\n    id = db.Column(db.Integer, primary_key=True)\r\n    full_name = db.Column(db.String(100), nullable=False)\r\n    email = db.Column(db.String(120), nullable=False)\r\n    date = db.Column(db.String(20), nullable=False)\r\n    guests = db.Column(db.Integer, nullable=False)\r\n\r\n    def __repr__(self):\r\n        return f\"<Reservation {self.full_name}>\"\r\n"
+        }
+    ]
+}

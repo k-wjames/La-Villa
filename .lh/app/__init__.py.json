@@ -1,0 +1,34 @@
+{
+    "sourceFile": "app/__init__.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 4,
+            "patches": [
+                {
+                    "date": 1770302926729,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1770304346778,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,17 +1,13 @@\n-from flask import Flask\r\n-from flask_sqlalchemy import SQLAlchemy\r\n-from flask_marshmallow import Marshmallow\r\n+from flask_cors import CORS\r\n \r\n-db = SQLAlchemy()\r\n-ma = Marshmallow()\r\n-\r\n def create_app():\r\n     app = Flask(__name__)\r\n     app.config.from_object(\"config.Config\")\r\n \r\n     db.init_app(app)\r\n     ma.init_app(app)\r\n+    CORS(app)  # <-- allow cross-origin requests\r\n \r\n     from .routes import reservation_bp\r\n     app.register_blueprint(reservation_bp)\r\n \r\n"
+                },
+                {
+                    "date": 1770304361788,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,8 @@\n+from flask import Flask\r\n+from flask_sqlalchemy import SQLAlchemy\r\n+from flask_marshmallow import Marshmallow\r\n+\r\n from flask_cors import CORS\r\n \r\n def create_app():\r\n     app = Flask(__name__)\r\n@@ -14,4 +18,5 @@\n     with app.app_context():\r\n         db.create_all()\r\n \r\n     return app\r\n+\r\n"
+                },
+                {
+                    "date": 1770304381485,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,22 +1,22 @@\n from flask import Flask\r\n from flask_sqlalchemy import SQLAlchemy\r\n from flask_marshmallow import Marshmallow\r\n-\r\n from flask_cors import CORS\r\n \r\n+db = SQLAlchemy()\r\n+ma = Marshmallow()\r\n+\r\n def create_app():\r\n     app = Flask(__name__)\r\n     app.config.from_object(\"config.Config\")\r\n \r\n     db.init_app(app)\r\n     ma.init_app(app)\r\n-    CORS(app)  # <-- allow cross-origin requests\r\n \r\n     from .routes import reservation_bp\r\n     app.register_blueprint(reservation_bp)\r\n \r\n     with app.app_context():\r\n         db.create_all()\r\n \r\n     return app\r\n-\r\n"
+                },
+                {
+                    "date": 1770304412924,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,22 @@\n+from flask import Flask\r\n+from flask_sqlalchemy import SQLAlchemy\r\n+from flask_marshmallow import Marshmallow\r\n+from flask_cors import CORS\r\n+\r\n+db = SQLAlchemy()\r\n+ma = Marshmallow()\r\n+\r\n+def create_app():\r\n+    app = Flask(__name__)\r\n+    app.config.from_object(\"config.Config\")\r\n+\r\n+    db.init_app(app)\r\n+    ma.init_app(app)\r\n+    \r\n+    from .routes import reservation_bp\r\n+    app.register_blueprint(reservation_bp)\r\n+\r\n+    with app.app_context():\r\n+        db.create_all()\r\n+\r\n+    return app\r\n"
+                }
+            ],
+            "date": 1770302926729,
+            "name": "Commit-0",
+            "content": "from flask import Flask\r\nfrom flask_sqlalchemy import SQLAlchemy\r\nfrom flask_marshmallow import Marshmallow\r\n\r\ndb = SQLAlchemy()\r\nma = Marshmallow()\r\n\r\ndef create_app():\r\n    app = Flask(__name__)\r\n    app.config.from_object(\"config.Config\")\r\n\r\n    db.init_app(app)\r\n    ma.init_app(app)\r\n\r\n    from .routes import reservation_bp\r\n    app.register_blueprint(reservation_bp)\r\n\r\n    with app.app_context():\r\n        db.create_all()\r\n\r\n    return app\r\n"
+        }
+    ]
+}

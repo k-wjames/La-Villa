@@ -1,0 +1,18 @@
+{
+    "sourceFile": "config.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1770302901615,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1770302901615,
+            "name": "Commit-0",
+            "content": "import os\r\n\r\nBASE_DIR = os.path.abspath(os.path.dirname(__file__))\r\n\r\nclass Config:\r\n    SQLALCHEMY_DATABASE_URI = \"sqlite:///\" + os.path.join(BASE_DIR, \"reservations.db\")\r\n    SQLALCHEMY_TRACK_MODIFICATIONS = False\r\n"
+        }
+    ]
+}

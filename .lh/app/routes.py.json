@@ -1,0 +1,30 @@
+{
+    "sourceFile": "app/routes.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1770302953481,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1770303064573,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,4 +6,6 @@\n reservation_bp = Blueprint(\"reservations\", __name__)\r\n \r\n reservation_schema = ReservationSchema()\r\n reservations_schema = ReservationSchema(many=True)\r\n+\r\n+\r\n"
+                },
+                {
+                    "date": 1770303074098,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,4 +20,10 @@\n     db.session.add(reservation)\r\n     db.session.commit()\r\n \r\n     return reservation_schema.jsonify(reservation), 201\r\n+\r\n+\r\n+@reservation_bp.route(\"/reservations\", methods=[\"GET\"])\r\n+def get_reservations():\r\n+    reservations = Reservation.query.all()\r\n+    return reservations_schema.jsonify(reservations), 200\r\n"
+                },
+                {
+                    "date": 1770303778128,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,9 @@\n from flask import Blueprint, request, jsonify\r\n from .models import Reservation\r\n from .schemas import ReservationSchema\r\n from . import db\r\n+from datetime import datetime\r\n \r\n \r\n \r\n reservation_bp = Blueprint(\"reservations\", __name__)\r\n"
+                }
+            ],
+            "date": 1770302953481,
+            "name": "Commit-0",
+            "content": "from flask import Blueprint, request, jsonify\r\nfrom .models import Reservation\r\nfrom .schemas import ReservationSchema\r\nfrom . import db\r\n\r\nreservation_bp = Blueprint(\"reservations\", __name__)\r\n\r\nreservation_schema = ReservationSchema()\r\nreservations_schema = ReservationSchema(many=True)\r\n"
+        }
+    ]
+}

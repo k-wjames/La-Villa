@@ -1,0 +1,18 @@
+{
+    "sourceFile": "run.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1770303161446,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1770303161446,
+            "name": "Commit-0",
+            "content": "from app import create_app\r\n\r\napp = create_app()\r\n\r\nif __name__ == \"__main__\":\r\n    app.run(debug=True)\r\n"
+        }
+    ]
+}
