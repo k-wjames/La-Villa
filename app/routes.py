@@ -3,6 +3,7 @@ from .models import Reservation
 from .schemas import ReservationSchema
 from . import db
 from datetime import datetime
+import threading
 
 from flask_mail import Message
 from app import mail
