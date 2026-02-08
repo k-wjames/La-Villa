@@ -24,10 +24,12 @@ def health_check():
             date=datetime.strptime(data["date"], "%Y-%m-%d").date(),
             time=datetime.strptime(data["time"], "%H:%M").time()
         )
-    
-        return jsonify({"message": "Success", "data": reservation}), 201
+
+        serialized = reservation_schema.dump(reservation)
+        return jsonify({"message": "Success", "data": serialized}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
 
 
 @reservation_bp.route("/create", methods=["POST"])
@@ -47,6 +49,8 @@ def create_reservation():
         return jsonify({"message": "Reservation created", "id": reservation.id}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
+        
 
 
 # @reservation_bp.route("/reservations", methods=["GET"])
