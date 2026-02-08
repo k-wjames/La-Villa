@@ -25,7 +25,7 @@ def health_check():
             time=datetime.strptime(data["time"], "%H:%M").time()
         )
     
-        return jsonify({"message": "Success": reservation}), 201
+        return jsonify({"message": "Success", "data": reservation}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
