@@ -12,6 +12,25 @@ reservation_schema = ReservationSchema()
 reservations_schema = ReservationSchema(many=True)
 
 
+@reservation_bp.route("/health", methods=["POST"])
+def health_check():
+    data = request.get_json()  
+    try:
+        reservation = Reservation(
+            full_name=data["full_name"],
+            phone_number=data["phone_number"],
+            email=data["email"],
+            persons=data["persons"],
+            date=datetime.strptime(data["date"], "%Y-%m-%d").date(),
+            time=datetime.strptime(data["time"], "%H:%M").time()
+        )
+        db.session.add(reservation)
+        db.session.commit()
+        return jsonify({"message": "Reservation created", "id": reservation.id}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+
 @reservation_bp.route("/create", methods=["POST"])
 def create_reservation():
     data = request.get_json()
@@ -20,7 +39,7 @@ def create_reservation():
             full_name=data["full_name"],
             phone_number=data["phone_number"],
             email=data["email"],
-            persons=data.get("persons", 1),
+            persons=data["persons"],
             date=datetime.strptime(data["date"], "%Y-%m-%d").date(),
             time=datetime.strptime(data["time"], "%H:%M").time()
         )
