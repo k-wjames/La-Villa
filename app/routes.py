@@ -52,7 +52,7 @@ def create_booking():
         recipients=[email],
         body=f"Hi {full_name},\n\nYour booking for {date} at {time} has been confirmed.\n\nThank you!\n\n— LaVilla Team"
     )
-    mail.send(customer_msg)
+    # mail.send(customer_msg)
 
     # --- Send notification to host business ---
     host_msg = Message(
@@ -60,7 +60,13 @@ def create_booking():
         recipients=["ellislunayo@gmail.com"],
         body=f"New booking received:\n\nName: {full_name}\nEmail: {email}\nPhone: {phone}\nDate: {date}\nTime: {time}"
     )
-    mail.send(host_msg)
+    # mail.send(host_msg)
+
+    # Run mail sends in background threads
+    threading.Thread(target=send_async_email, args=(current_app._get_current_object(), customer_msg)).start()
+    threading.Thread(target=send_async_email, args=(current_app._get_current_object(), host_msg)).start()
+
+    return jsonify({"message": "Booking successful, emails queued!"}), 200
 
     return jsonify({"message": "Booking successful and emails sent!"}), 200
 
