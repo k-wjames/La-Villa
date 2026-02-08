@@ -20,6 +20,7 @@ def create_reservation():
             full_name=data["full_name"],
             phone_number=data["phone_number"],
             email=data["email"],
+            persons=data.get("persons", 1),
             date=datetime.strptime(data["date"], "%Y-%m-%d").date(),
             time=datetime.strptime(data["time"], "%H:%M").time()
         )
