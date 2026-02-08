@@ -46,6 +46,7 @@ def get_reservations():
             "full_name": r.full_name,
             "phone_number": r.phone_number,
             "email": r.email,
+            "persons":r.persons,
           "date": r.date.strftime("%d-%m-%y"),
             "time": r.time.strftime("%H:%M"),
            "created_at": r.created_at.strftime("%d-%m-%y %H:%M:%S")
