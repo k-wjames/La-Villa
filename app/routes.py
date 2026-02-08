@@ -4,6 +4,9 @@ from .schemas import ReservationSchema
 from . import db
 from datetime import datetime
 
+from flask_mail import Message
+from app import mail
+
 
 
 reservation_bp = Blueprint("reservations", __name__)
@@ -29,6 +32,37 @@ def health_check():
         return jsonify({"message": "Success", "data": serialized}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
+# Make a reservation: Send confirmation mails to the client and the host
+
+@reservation_bp.route("/book", methods=["POST"])
+def create_booking():
+    data = request.get_json()
+
+    # Extract booking info
+    full_name = data.get("full_name")
+    email = data.get("email")
+    phone = data.get("phone_number")
+    date = data.get("date")
+    time = data.get("time")
+
+    # --- Send confirmation to the customer ---
+    customer_msg = Message(
+        subject="Booking Confirmation - LaVilla",
+        recipients=[email],
+        body=f"Hi {full_name},\n\nYour booking for {date} at {time} has been confirmed.\n\nThank you!\n\n— LaVilla Team"
+    )
+    mail.send(customer_msg)
+
+    # --- Send notification to host business ---
+    host_msg = Message(
+        subject="New Booking Received",
+        recipients=["ellislunayo@gmail.com"],
+        body=f"New booking received:\n\nName: {full_name}\nEmail: {email}\nPhone: {phone}\nDate: {date}\nTime: {time}"
+    )
+    mail.send(host_msg)
+
+    return jsonify({"message": "Booking successful and emails sent!"}), 200
 
 
 
