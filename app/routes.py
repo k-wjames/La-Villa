@@ -24,9 +24,8 @@ def health_check():
             date=datetime.strptime(data["date"], "%Y-%m-%d").date(),
             time=datetime.strptime(data["time"], "%H:%M").time()
         )
-        db.session.add(reservation)
-        db.session.commit()
-        return jsonify({"message": "Reservation created", "id": reservation.id}), 201
+    
+        return jsonify({"message": "Success": reservation}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
