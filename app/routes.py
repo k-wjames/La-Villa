@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 from .models import Reservation
 from .schemas import ReservationSchema
 from . import db
@@ -9,11 +9,28 @@ from flask_mail import Message
 from app import mail
 
 
-
 reservation_bp = Blueprint("reservations", __name__)
 
 reservation_schema = ReservationSchema()
 reservations_schema = ReservationSchema(many=True)
+
+
+@reservation_bp.route("/test-mail", methods=["GET", "POST"])
+def test_mail():
+    msg = Message(
+        subject="Test Email from Flask",
+        recipients=["kwjames9326@gmail.com"],  # change this to your real inbox
+        body="If you see this, Flask-Mail works 🎉"
+    )
+    try:
+        mail.send(msg)
+        print("✅ Test email sent successfully!")
+        return jsonify({"message": "Email sent successfully!"}), 200
+    except Exception as e:
+        print(f"❌ Email sending failed: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
 
 
 @reservation_bp.route("/health", methods=["POST"])
@@ -34,6 +51,16 @@ def health_check():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
+# Send mails asynclonously on a separate thread so it doesn’t block the request.
+def send_async_email(app, msg):
+    with app.app_context():
+        try:
+            mail.send(msg)
+            print(f"Email sent successfully to {msg.recipients}")
+        except Exception as e:
+            print(f"Email sending failed: {e}")
+
+
 # Make a reservation: Send confirmation mails to the client and the host
 
 @reservation_bp.route("/book", methods=["POST"])
@@ -44,22 +71,23 @@ def create_booking():
     full_name = data.get("full_name")
     email = data.get("email")
     phone = data.get("phone_number")
+    persons=data.get("persons")
     date = data.get("date")
     time = data.get("time")
 
     # --- Send confirmation to the customer ---
     customer_msg = Message(
-        subject="Booking Confirmation - LaVilla",
+        subject="Reservation Confirmation - LaVilla",
         recipients=[email],
-        body=f"Hi {full_name},\n\nYour booking for {date} at {time} has been confirmed.\n\nThank you!\n\n— LaVilla Team"
+        body=f"Hi {full_name},\n\nYour reservtion for {date} at {time} for {persons} has been confirmed.\n\nThank you!\n\n— LaVilla Team"
     )
     # mail.send(customer_msg)
 
     # --- Send notification to host business ---
     host_msg = Message(
-        subject="New Booking Received",
-        recipients=["ellislunayo@gmail.com"],
-        body=f"New booking received:\n\nName: {full_name}\nEmail: {email}\nPhone: {phone}\nDate: {date}\nTime: {time}"
+        subject="New Reservation Received",
+        recipients=["reservations@lavilla.co.ke"],
+        body=f"New reservation received:\n\nName: {full_name}\nEmail: {email}\nPhone: {phone}\nPersons: {persons}\nDate: {date}\nTime: {time}"
     )
     # mail.send(host_msg)
 
@@ -69,7 +97,6 @@ def create_booking():
 
     return jsonify({"message": "Booking successful, emails queued!"}), 200
 
-    return jsonify({"message": "Booking successful and emails sent!"}), 200
 
 
 
